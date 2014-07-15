@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="template/master.xhtml">
+
+	<ui:define name="contenido">
+		<f:view>
+			<h:head></h:head>
+			<h:body>
+				<p:outputPanel>
+					<h:form>
+						<p:dataTable var="u" value="#{userMB.lista}">
+							<p:column>
+								<f:facet name="header">Usuario</f:facet>
+								<h:outputText value="#{u.username}" />
+							</p:column>
+							<p:column headerText="Editar">
+								<p:commandButton update=":frmPar" oncomplete="dlgPar.show()"
+									icon="ui-icon-search" title="Editar">
+									<f:setPropertyActionListener value="#{u}"
+										target="#{userMB.usr}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+						<p:panel>
+							<div align="center">
+								<p:commandButton value="Adicionar"
+									actionListener="#{userMB.addUsr}" update=":frmPar"
+									oncomplete="dlgPar.show()" />
+							</div>
+						</p:panel>
+					</h:form>
+				</p:outputPanel>
+
+				<p:dataTable var="r" value="#{userMB.roles}">
+					<p:column>
+						<h:outputText value="#{r.name}" />
+					</p:column>
+				</p:dataTable>
+
+				<p:commandButton value="Adicionar"
+					actionListener="#{userMB.addRole}" update=":frmRole"
+					oncomplete="dlgRole.show()" />
+
+				<p:dialog header="Usuario" modal="true" appendTo="@(body)"
+					widgetVar="dlgPar" resizable="false" showEffect="fade"
+					hideEffect="fade">
+					<h:form id="frmPar">
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Usuario" />
+							<p:inputText value="#{userMB.usr.username}" required="true">
+							</p:inputText>
+
+							<p:outputLabel value="Clave" />
+							<p:inputText value="#{userMB.usr.password}" />
+
+							<p:outputLabel value="Habilitado" />
+							<p:selectBooleanCheckbox value="#{userMB.usr.enabled}" />
+
+							<p:outputLabel value="Roles" />
+							<p:selectManyCheckbox value="#{userMB.selected_roles}" layout="grid"
+								columns="3">
+								<f:selectItems value="#{userMB.roles}" var="r"
+									itemLabel="#{r.name}" itemValue="#{r.id}" />
+							</p:selectManyCheckbox>
+
+							<h:commandButton action="#{userMB.guardar}" value="Guardar" />
+						</h:panelGrid>
+					</h:form>
+				</p:dialog>
+
+				<p:dialog header="Role" modal="true" appendTo="@(body)"
+					widgetVar="dlgRole" resizable="false" showEffect="fade"
+					hideEffect="fade">
+					<h:form id="frmRole">
+						<h:panelGrid columns="2">
+							<h:outputLabel value="Nombre" />
+							<h:inputText id="nombre" value="#{userMB.role.name}"
+								required="true">
+							</h:inputText>
+							<h:commandButton action="#{userMB.guardarRole}" value="Guardar" />
+						</h:panelGrid>
+					</h:form>
+				</p:dialog>
+			</h:body>
+		</f:view>
+	</ui:define>
+</ui:composition>
