@@ -59,11 +59,11 @@
 							<p:selectBooleanCheckbox value="#{userMB.usr.enabled}" />
 
 							<p:outputLabel value="Roles" />
-							<p:selectManyCheckbox value="#{userMB.selected_roles}" layout="grid"
-								columns="3">
+							<p:selectManyMenu value="#{userMB.usr.roles}" layout="grid"
+								columns="3" converter="roleConverter">
 								<f:selectItems value="#{userMB.roles}" var="r"
 									itemLabel="#{r.name}" itemValue="#{r.id}" />
-							</p:selectManyCheckbox>
+							</p:selectManyMenu>
 
 							<h:commandButton action="#{userMB.guardar}" value="Guardar" />
 						</h:panelGrid>

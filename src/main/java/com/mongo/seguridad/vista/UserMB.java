@@ -1,7 +1,6 @@
 package com.mongo.seguridad.vista;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -30,8 +29,6 @@ public class UserMB implements Serializable {
 	private List<Role> roles;
 	private List<User> users;
 
-	private List<String> selected_roles;
-
 	@PostConstruct
 	public void init() {
 		roles = bo.listRoles();
@@ -45,19 +42,9 @@ public class UserMB implements Serializable {
 
 	public void addUsr() {
 		usr = new User();
-		selected_roles = new ArrayList<String>();
 	}
 
 	public void guardar() {
-		List<Role> ret = new ArrayList<Role>();
-		for (String s : selected_roles) {
-			for (Role r : roles)
-				if (r.getId().equals(s)) {
-					ret.add(r);
-					break;
-				}
-		}
-		usr.setRoles(ret);
 		bo.saveUser(usr);
 	}
 
@@ -78,10 +65,6 @@ public class UserMB implements Serializable {
 
 	public void setUsr(User usr) {
 		this.usr = usr;
-		selected_roles = new ArrayList<String>();
-		for (Role r : usr.getRoles()) {
-			selected_roles.add(r.getId());
-		}
 	}
 
 	public List<Role> getRoles() {
@@ -98,14 +81,6 @@ public class UserMB implements Serializable {
 
 	public void setRole(Role role) {
 		this.role = role;
-	}
-
-	public List<String> getSelected_roles() {
-		return selected_roles;
-	}
-
-	public void setSelected_roles(List<String> selected_roles) {
-		this.selected_roles = selected_roles;
 	}
 
 }
