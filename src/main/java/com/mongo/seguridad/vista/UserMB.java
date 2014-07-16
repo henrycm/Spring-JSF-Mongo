@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.mongo.seguridad.modelo.Permission;
 import com.mongo.seguridad.modelo.Role;
 import com.mongo.seguridad.modelo.User;
 import com.mongo.seguridad.service.SeguridadService;
@@ -26,13 +27,17 @@ public class UserMB implements Serializable {
 
 	private User usr = new User();
 	private Role role = new Role();
+	private Permission permission = new Permission();
+	
 	private List<Role> roles;
 	private List<User> users;
+	private List<Permission> permissions;
 
 	@PostConstruct
 	public void init() {
 		roles = bo.listRoles();
 		users = bo.listUser();
+		permissions = bo.listPermissions();
 		logger.debug("No. Usuarios:" + users.size());
 	}
 
@@ -44,15 +49,25 @@ public class UserMB implements Serializable {
 		usr = new User();
 	}
 
+	public void addPermission() {
+		permission = new Permission();
+	}
+	
 	public void guardar() {
 		bo.saveUser(usr);
+		users = bo.listUser();
 	}
 
 	public void guardarRole() {
 		bo.saveRole(role);
-		roles.add(role);
+		roles = bo.listRoles();
 	}
 
+	public void guardarPermission() {
+		bo.savePermission(permission);
+		permissions = bo.listPermissions();
+	}
+	
 	// --------------------------------
 
 	public List<User> getLista() {
@@ -83,4 +98,19 @@ public class UserMB implements Serializable {
 		this.role = role;
 	}
 
+	public List<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<Permission> permissions) {
+		this.permissions = permissions;
+	}
+
+	public Permission getPermission() {
+		return permission;
+	}
+
+	public void setPermission(Permission permission) {
+		this.permission = permission;
+	}
 }
