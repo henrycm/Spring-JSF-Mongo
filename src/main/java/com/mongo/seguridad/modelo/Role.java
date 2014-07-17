@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Role implements Serializable, Comparable<Role> {
+public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -42,10 +41,9 @@ public class Role implements Serializable, Comparable<Role> {
 		this.permissions = permissions;
 	}
 
-	@Transient
 	@Override
-	public int compareTo(Role arg0) {
-		return this.getId().compareTo(arg0.getId());
+	public String toString() {
+		return getId();
 	}
 
 }

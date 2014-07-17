@@ -8,7 +8,7 @@
 		<f:view>
 			<h:head></h:head>
 			<h:body>
-				<h:form>
+				<h:form id="frm">
 					<h:panelGrid columns="3">
 						<p:dataTable var="u" value="#{userMB.lista}">
 							<f:facet name="header">
@@ -36,6 +36,7 @@
 								<h:outputText value="Roles" />
 							</f:facet>
 							<p:column>
+								<f:facet name="header">Rol</f:facet>
 								<h:outputText value="#{r.name}" />
 							</p:column>
 							<p:column headerText="Editar">
@@ -51,11 +52,12 @@
 									oncomplete="dlgRole.show()" />
 							</f:facet>
 						</p:dataTable>
-						<p:dataTable var="p" value="#{userMB.permissions}" editable="true">
+						<p:dataTable var="p" value="#{userMB.permissions}">
 							<f:facet name="header">
 								<h:outputText value="Permisos" />
 							</f:facet>
 							<p:column>
+								<f:facet name="header">Permiso</f:facet>
 								<h:outputText value="#{p.name}" />
 							</p:column>
 							<f:facet name="footer">
@@ -64,7 +66,6 @@
 									oncomplete="dlgPerm.show()" />
 							</f:facet>
 						</p:dataTable>
-
 					</h:panelGrid>
 				</h:form>
 
@@ -74,23 +75,24 @@
 					<h:form id="frmPar">
 						<h:panelGrid columns="2">
 							<p:outputLabel value="Usuario" />
-							<p:inputText value="#{userMB.usr.username}" required="true">
-							</p:inputText>
+							<p:inputText value="#{userMB.usr.username}" required="true" />
 
 							<p:outputLabel value="Clave" />
-							<p:inputText value="#{userMB.usr.password}" />
+							<p:password value="#{userMB.usr.password}" required="true" />
 
 							<p:outputLabel value="Habilitado" />
 							<p:selectBooleanCheckbox value="#{userMB.usr.enabled}" />
 
 							<p:outputLabel value="Roles" />
-							<p:selectManyMenu value="#{userMB.usr.roles}" layout="grid"
-								columns="3" converter="roleConverter">
+							<p:selectManyMenu value="#{userMB.usr.roles}"
+								converter="roleConverter" showCheckbox="true">
 								<f:selectItems value="#{userMB.roles}" var="r"
 									itemLabel="#{r.name}" itemValue="#{r.id}" />
 							</p:selectManyMenu>
 
-							<h:commandButton action="#{userMB.guardar}" value="Guardar" />
+							<p:commandButton actionListener="#{userMB.guardar}"
+								value="Guardar" update=":frm,@form"
+								oncomplete="if (!args.validationFailed) dlgPar.hide();" />
 						</h:panelGrid>
 					</h:form>
 				</p:dialog>
@@ -107,11 +109,13 @@
 
 							<h:outputLabel value="Permisos" />
 							<p:selectManyMenu value="#{userMB.role.permissions}"
-								layout="grid" columns="3" converter="permissionConverter">
+								converter="permissionConverter" showCheckbox="true">
 								<f:selectItems value="#{userMB.permissions}" var="p"
 									itemLabel="#{p.name}" itemValue="#{p.id}" />
 							</p:selectManyMenu>
-							<h:commandButton action="#{userMB.guardarRole}" value="Guardar" />
+							<p:commandButton actionListener="#{userMB.guardarRole}"
+								update=":frm" value="Guardar"
+								oncomplete="if (!args.validationFailed) dlgRole.hide();" />
 						</h:panelGrid>
 					</h:form>
 				</p:dialog>
