@@ -27,8 +27,8 @@ public class SeguridadService {
 		urepo.save(user);
 	}
 
-	public void saveRole(Role role) {
-		rrepo.save(role);
+	public Role saveRole(Role role) {
+		return rrepo.save(role);
 	}
 
 	public void savePermission(Permission perm) {

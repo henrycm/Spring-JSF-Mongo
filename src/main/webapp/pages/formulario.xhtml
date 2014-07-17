@@ -78,14 +78,14 @@
 							<p:inputText value="#{userMB.usr.username}" required="true" />
 
 							<p:outputLabel value="Clave" />
-							<p:password value="#{userMB.usr.password}" required="true" />
+							<p:inputText value="#{userMB.usr.password}" required="true" />
 
 							<p:outputLabel value="Habilitado" />
 							<p:selectBooleanCheckbox value="#{userMB.usr.enabled}" />
 
 							<p:outputLabel value="Roles" />
-							<p:selectManyMenu value="#{userMB.usr.roles}"
-								converter="roleConverter" showCheckbox="true">
+							<p:selectManyMenu value="#{userMB.selected_roles}"
+								showCheckbox="true">
 								<f:selectItems value="#{userMB.roles}" var="r"
 									itemLabel="#{r.name}" itemValue="#{r.id}" />
 							</p:selectManyMenu>
@@ -108,8 +108,8 @@
 							</h:inputText>
 
 							<h:outputLabel value="Permisos" />
-							<p:selectManyMenu value="#{userMB.role.permissions}"
-								converter="permissionConverter" showCheckbox="true">
+							<p:selectManyMenu value="#{userMB.selected_permissions}"
+								showCheckbox="true">
 								<f:selectItems value="#{userMB.permissions}" var="p"
 									itemLabel="#{p.name}" itemValue="#{p.id}" />
 							</p:selectManyMenu>
