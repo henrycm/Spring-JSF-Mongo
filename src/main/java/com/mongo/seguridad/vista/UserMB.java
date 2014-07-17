@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -81,6 +84,13 @@ public class UserMB implements Serializable {
 			}
 		bo.saveRole(role);
 		roles = bo.listRoles();
+	}
+
+	public void onRowEdit(RowEditEvent event) {
+		permission = (Permission) event.getObject();
+		FacesMessage msg = new FacesMessage("Permiso guardado", permission.getName());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		guardarPermission();
 	}
 
 	public void guardarPermission() {

@@ -5,7 +5,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.mongo.seguridad.modelo.User;
 
-public interface UserRepository extends MongoRepository<User, String>,
-		PagingAndSortingRepository<User, String> {
+public interface UserRepository extends MongoRepository<User, String>, PagingAndSortingRepository<User, String> {
 
 }

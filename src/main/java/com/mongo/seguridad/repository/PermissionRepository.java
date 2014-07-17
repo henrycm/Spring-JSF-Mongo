@@ -5,8 +5,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.mongo.seguridad.modelo.Permission;
 
-public interface PermissionRepository extends
-		MongoRepository<Permission, String>,
-		PagingAndSortingRepository<Permission, String> {
+public interface PermissionRepository extends MongoRepository<Permission, String>, PagingAndSortingRepository<Permission, String> {
 
 }
