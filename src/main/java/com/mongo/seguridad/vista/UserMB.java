@@ -73,6 +73,11 @@ public class UserMB implements Serializable {
 		users = bo.listUser();
 	}
 
+	public void eliminarUsr(User u) {
+		bo.deleteUser(u);
+		users = bo.listUser();
+	}
+
 	public void guardarRole() {
 		role.setPermissions(new ArrayList<Permission>());
 		for (String s : selected_permissions)
@@ -82,20 +87,51 @@ public class UserMB implements Serializable {
 					break;
 				}
 			}
-		bo.saveRole(role);
-		roles = bo.listRoles();
+		try {
+			bo.saveRole(role);
+			roles = bo.listRoles();
+		} catch (Exception e) {
+			logger.warn(e);
+			crearMensaje("Guardar", e.getMessage());
+		}
+	}
+
+	public void eliminarRole(Role r) {
+		try {
+			bo.deleteRole(r);
+			roles = bo.listRoles();
+		} catch (Exception e) {
+			logger.warn(e);
+			crearMensaje("Eliminar", e.getMessage());
+		}
+
+	}
+
+	public void eliminarPermission(Permission p) {
+		bo.deletePermission(p);
+		permissions = bo.listPermissions();
 	}
 
 	public void onRowEdit(RowEditEvent event) {
 		permission = (Permission) event.getObject();
-		FacesMessage msg = new FacesMessage("Permiso guardado", permission.getName());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
 		guardarPermission();
 	}
 
 	public void guardarPermission() {
-		bo.savePermission(permission);
-		permissions = bo.listPermissions();
+		try {
+			bo.savePermission(permission);
+			permissions = bo.listPermissions();
+			crearMensaje("Permiso guardado", permission.getName());
+		} catch (Exception e) {
+			logger.warn(e);
+			crearMensaje("Guardar", e.getMessage());
+		}
+
+	}
+
+	private void crearMensaje(String tipo, String msg) {
+		FacesMessage msg_ = new FacesMessage(tipo, msg);
+		FacesContext.getCurrentInstance().addMessage(null, msg_);
 	}
 
 	// --------------------------------
