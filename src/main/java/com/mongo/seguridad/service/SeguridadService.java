@@ -44,12 +44,15 @@ public class SeguridadService {
 	public void deleteRole(Role role) throws Exception {
 		List<User> lst = urepo.buscarPorRole(role.getId());
 		if (lst != null && lst.size() > 0)
-			throw new Exception("Existen usuarios con el rol!");
+			throw new Exception("Existen usuarios con el rol: " + role.getName());
 		rrepo.delete(role.getId());
 	}
 
-	public void deletePermission(Permission permission) {
-		prepo.delete(permission.getId());
+	public void deletePermission(Permission permission) throws Exception {
+		List<Role> lst = rrepo.buscarPorPermission(permission.getId());
+		if (lst != null && lst.size() > 0)
+			throw new Exception("Existen roles con el permiso: " + permission.getName());
+		rrepo.delete(permission.getId());
 	}
 
 	public void savePermission(Permission perm) throws Exception {

@@ -76,6 +76,7 @@ public class UserMB implements Serializable {
 	public void eliminarUsr(User u) {
 		bo.deleteUser(u);
 		users = bo.listUser();
+		crearMensaje("Eliminar", "Usuario eliminado:" + u.getUsername());
 	}
 
 	public void guardarRole() {
@@ -100,6 +101,7 @@ public class UserMB implements Serializable {
 		try {
 			bo.deleteRole(r);
 			roles = bo.listRoles();
+			crearMensaje("Eliminar", "Role eliminado:" + r.getName());
 		} catch (Exception e) {
 			logger.warn(e);
 			crearMensaje("Eliminar", e.getMessage());
@@ -108,8 +110,14 @@ public class UserMB implements Serializable {
 	}
 
 	public void eliminarPermission(Permission p) {
-		bo.deletePermission(p);
-		permissions = bo.listPermissions();
+		try {
+			bo.deletePermission(p);
+			permissions = bo.listPermissions();
+			crearMensaje("Eliminar", "Permiso eliminado:" + p.getName());
+		} catch (Exception e) {
+			logger.warn(e);
+			crearMensaje("Eliminar", e.getMessage());
+		}
 	}
 
 	public void onRowEdit(RowEditEvent event) {
