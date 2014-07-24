@@ -1,7 +1,11 @@
 package com.mongo.seguridad.service;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +18,8 @@ import com.mongo.seguridad.repository.UserRepository;
 
 @Service
 public class SeguridadService {
+	private Logger logger = Logger.getLogger(SeguridadService.class);
+
 	@Autowired
 	private UserRepository urepo;
 
@@ -75,5 +81,19 @@ public class SeguridadService {
 
 	public List<Permission> listPermissions() {
 		return prepo.findAll();
+	}
+
+	public Collection<Permission> listPermissions(String username) {
+		Set<Permission> lst = new HashSet<Permission>();
+		List<Role> roles = urepo.findOne(username).getRoles();
+		try {
+			for (Role r : roles) {
+				if (r.getPermissions() != null)
+					lst.addAll(r.getPermissions());
+			}
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		return lst;
 	}
 }
